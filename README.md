@@ -1,8 +1,9 @@
-# [Your Project Title Here]
+# Detecting Sleep Apnea from raw physiological signals
+by Dreem | https://challengedata.ens.fr/participants/challenges/45/
 
 ## Repository Link
 
-[https://github.com/your_username/your_project_name]
+https://github.com/giuuusepeda/Sleep_Apnea
 
 ## Description
 
