@@ -68,4 +68,18 @@ Approaches or solutions that have been tried before on similar projects.
     - Very relevant: our project aims at event detection of sleep apnea (via ML) from physiological signals, and this work uses deep learning on full polysomnography signals for the same purpose.
     - This article offers a methodological reference for building an automatic scoring model (“event detection + grading”) and may provide inspiration for architecture choices, training strategies, and evaluation metrics.
     - The work underscores that full PSG signals allow higher fidelity models; we may compare whether our dataset (with perhaps fewer channels) aligns, or how to adapt the approach to your available signals.
-    - Also, it highlights practical limitations (need for annotated events, generalization) that should be consider in our project’s design and discussion of limitations. 
+    - Also, it highlights practical limitations (need for annotated events, generalization) that should be consider in our project’s design and discussion of limitations.
+
+## Insights for Our Project
+
+**Common Models:**
+Random Forest, Gradient Boosting (XGBoost, LightGBM, CatBoost), CNNs, and self-supervised encoders like Masked Autoencoders.
+
+**Training Data Format:**
+Multichannel time-series (e.g., EEG, airflow, SpO₂, respiratory effort) often segmented into fixed-length windows with per-second apnea labels.
+
+**Data Volume:**
+Studies range from hundreds to several thousand PSG recordings; larger datasets improve model reliability and generalization.
+
+**Pretrained Models:**
+Recent works (e.g., PSG-MAE) suggest pretraining on large unlabeled PSG data can significantly boost downstream apnea detection performance.
