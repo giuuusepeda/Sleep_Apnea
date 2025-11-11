@@ -15,7 +15,7 @@ Approaches or solutions that have been tried before on similar projects.
     The challenge provides a standard benchmark and evaluation protocol for event-level apnea detection and has been used as the basis for comparing classical feature-based methods and end-to-end deep learning methods.
   - **Relation to the Project:**
     This is the primary dataset and task definition for our project; all preprocessing, modeling, and evaluation must follow the dataset format and the challenge’s expected submission format and metrics. :contentReference[oaicite:2]{index=2}
-
+    
 
 - **Source 2**: Application of various machine learning techniques to predict obstructive sleep apnea syndrome severity
 
@@ -70,7 +70,7 @@ Approaches or solutions that have been tried before on similar projects.
     - The work underscores that full PSG signals allow higher fidelity models; we may compare whether our dataset (with perhaps fewer channels) aligns, or how to adapt the approach to your available signals.
     - Also, it highlights practical limitations (need for annotated events, generalization) that should be consider in our project’s design and discussion of limitations.
 
-## Insights for Our Project
+## Insights for Our Project ##
 
 **Common Models:**
 Random Forest, Gradient Boosting (XGBoost, LightGBM, CatBoost), CNNs, and self-supervised encoders like Masked Autoencoders.
