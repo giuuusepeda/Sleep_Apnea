@@ -22,12 +22,12 @@ Approaches or solutions that have been tried before on similar projects.
   - **[Link](https://www.nature.com/articles/s41598-023-33170-7)**
   - **Objective**:
     To evaluate the performance of different machine learning models in predicting the severity of Obstructive Sleep Apnea Syndrome (OSAS) using clinical, anthropometric, and questionnaire data instead of full polysomnography.
-  - **Methods**:
+   **Methods**:
     - Dataset of 4,014 patients from a sleep clinic.
     - Features included demographic, physical, and questionnaire data (e.g., Epworth Sleepiness Scale, Insomnia Severity Index).
     - Applied clustering (K-means, GMM, hierarchical) and classification algorithms (Random Forest, XGBoost, LightGBM, CatBoost).
     - Feature selection with mutual information and recursive feature elimination; hyperparameter tuning via Bayesian optimization (Optuna).
-  - **Outcomes**:
+    **Outcomes**:
     - Best models achieved accuracies of ~88% (AHI ≥ 5), ~88% (AHI ≥ 15), and ~91% (AHI ≥ 30).
     - LightGBM and CatBoost showed the best overall performance.
     - Combining clustering, feature engineering, and hyperparameter tuning improved prediction accuracy.  
@@ -70,23 +70,29 @@ Approaches or solutions that have been tried before on similar projects.
     - The work underscores that full PSG signals allow higher fidelity models; we may compare whether our dataset (with perhaps fewer channels) aligns, or how to adapt the approach to your available signals.
     - Also, it highlights practical limitations (need for annotated events, generalization) that should be consider in our project’s design and discussion of limitations.
 
--**Source 5**: Towards automatic home-based sleep apnea estimation using deep learning
-  -**Link**:[Link](https://www.nature.com/articles/s41746-024-01139-z)
-  -**Objective**:
-    -To develop and validate a deep-learning model (DRIVEN) for automatic detection, segmentation, and quantification of apnea–hypopnea index (AHI) events in home-based
-     sleep monitoring using physiological signals.
-  -**Methods**:
-    -Raw abdominal and thoracic movement, plus SpO₂ signals, from large databases (MESA, MROS) were analyzed with both single- and multi-channel deep CNNs. 
-    -Features extracted from CNNs were combined and classified with LightGBM; window sizes and sensor combinations were rigorously compared.
 
-  -**Outcomes**:
-    -Best results were achieved with combined abdominal movement and pulse oximetry signals, reaching an F1-score of 72% for AHI detection. 
-    -Combining deep learning and boosting generalized well across sensor configurations and databases. Home-based solutions are feasible with careful model tuning.
 
-  -**Relation to the Project**:
-    -This source shows deep learning and boosting can be used for multi-sensor time-series event detection (similar to PSG dataset). 
-    -Sensor selection, windowing, and hybrid model design are highly relevant; it provides benchmarking suggestions for your own algorithm and shows the value of combining
-     signals.
+**Source 5**: Deep learning for obstructive sleep apnea diagnosis based on single-channel oximetry
+
+  **Source Link:**  [https://www.nature.com/articles/s41467-023-40300-8](https://www.nature.com/articles/s41467-023-40300-8)
+
+  **Objective:**  
+  To develop and validate a deep learning model for automatic diagnosis of obstructive sleep apnea (OSA) using oximetry data.
+
+  **Methods:**  
+  - Utilizes oximetry signals from large, multi-institutional datasets.
+  - Employs a deep convolutional neural network (CNN) architecture, trained to detect apnea events and estimate AHI.
+  - Evaluates performance using accuracy, sensitivity, specificity, and F1-score metrics; compares different windowing strategies and sensor setups.
+
+  **Outcomes:**  
+  - Achieves high accuracy in detecting OSA and estimating its severity from single-channel sensor signals.
+  - Demonstrates strong agreement with manual scoring and applicability to large-scale screening.
+  - Highlights the value of deep learning for scalable, home-based OSA diagnosis.
+
+  **Relation to the Project:**  
+    This study presents a practical framework for event detection using physiological signals, similar to our project with PSG data. Its approach to preprocessing, modeling
+    (CNN), and validation (agreement with expert scoring) directly informs our methodology and benchmarking decisions.
+
 
 ## Insights for Our Project ##
 
