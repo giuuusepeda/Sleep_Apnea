@@ -69,6 +69,19 @@ Approaches or solutions that have been tried before on similar projects.
     - This article offers a methodological reference for building an automatic scoring model (“event detection + grading”) and may provide inspiration for architecture choices, training strategies, and evaluation metrics.
     - The work underscores that full PSG signals allow higher fidelity models; we may compare whether our dataset (with perhaps fewer channels) aligns, or how to adapt the approach to your available signals.
     - Also, it highlights practical limitations (need for annotated events, generalization) that should be consider in our project’s design and discussion of limitations.
+      
+**Source 5**: Towards automatic home-based sleep apnea estimation using deep learning**Objective**:
+To develop and validate a deep-learning model (DRIVEN) for automatic detection, segmentation, and quantification of apnea–hypopnea index (AHI) events in home-based sleep monitoring using physiological signals.
+
+**Methods**:
+Raw abdominal and thoracic movement, plus SpO₂ signals, from large databases (MESA, MROS) were analyzed with both single- and multi-channel deep CNNs. Features extracted from CNNs were combined and classified with LightGBM; window sizes and sensor combinations were rigorously compared.
+
+**Outcomes**:
+Best results were achieved with combined abdominal movement and pulse oximetry signals, reaching an F1-score of 72% for AHI detection. Combining deep learning and boosting generalized well across sensor configurations and databases. Home-based solutions are feasible with careful model tuning.
+
+**Relation to the Project**:
+This source shows deep learning and boosting can be used for multi-sensor time-series event detection (similar to PSG dataset). 
+Sensor selection, windowing, and hybrid model design are highly relevant; it provides benchmarking suggestions for your own algorithm and shows the value of combining signals.
 
 ## Insights for Our Project ##
 
