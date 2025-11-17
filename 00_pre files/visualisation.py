@@ -17,6 +17,7 @@ SIGNALS_NAME = [
 ]
 
 
+
 def extract_events_from_binary_mask(binary_mask, fs=1):
     binary_mask = np.array([0] + binary_mask.tolist() + [0])
     diff_data = np.diff(binary_mask)
