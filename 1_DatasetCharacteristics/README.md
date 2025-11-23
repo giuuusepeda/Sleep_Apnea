@@ -22,14 +22,14 @@
 [Provide a brief description of each feature or group of features in your dataset. If you have many features, group them logically and describe each group. Include information about data types, ranges, and what each feature represents.]
 
 **Example format:**
-- **Abdominal belt (AbdoBelt):** Abdominal contraction, [data type, and any relevant details]
-- **Airflow (AirFlow):** Respiratory Airflow from the subject [Description of what this feature represents, data type, and any relevant details]
-- **PPG (Photoplethysmogram) (PPG):** Cardiac activity [Description of a group of related features]
+- **Abdominal belt (AbdoBelt):** Abdominal contraction signal,reflects respiratory movement, [data type = float, and any relevant details]
+- **Airflow (AirFlow):** Respiratory Airflow from the subject [measures breathing volume, data type = float, and any relevant details]
+- **PPG (Photoplethysmogram) (PPG):** Cardiac activity,  pulse rate estimation
 - **Thoracic belt (ThorBelt):** O2 saturation of the blood [Description of a group of related features]
-- **Snoring indicator (Snoring):** [Description of a group of related features]
-- **SPO2 (SPO2):** [Description of a group of related features]
-- **C4-A1 (C4A1):** EEG derivation[Description of a group of related features]
-- **O2-A1 (O2A1):** EEG derivation[Description of a group of related features]
+- **Snoring indicator (Snoring):** Binary or continuous values, indicates snoring presence/intensity,[Description of a group of related features]
+- **SPO2 (SPO2):** Oxygen saturation data, estimates SpO₂ percentage [Description of a group of related features]
+- **C4-A1 (C4A1):** EEG derivations (cerebral activity), C4-A1 channel[Description of a group of related features]
+- **O2-A1 (O2A1):** EEG derivations (cerebral activity), O2-A1 channel[Description of a group of related features]
 
 ## Exploratory Data Analysis
 
