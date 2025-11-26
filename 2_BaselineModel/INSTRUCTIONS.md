@@ -20,4 +20,4 @@ Follow the instructions provided in brackets in the [Jupyter/Colab notebook](bas
 
 ## Submission
 
-Complete the [Jupyter/Colab notebook](baseline_model.ipynb) to conduct your implmentation of the baseline model.
+Complete the [Jupyter/Colab notebook](baseline_model.ipynb) to conduct your implementation of the baseline model.
