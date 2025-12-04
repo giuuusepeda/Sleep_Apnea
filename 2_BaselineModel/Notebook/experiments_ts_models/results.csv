@@ -1,0 +1,4 @@
+experiment_name,family,size,random_seed,lookback,batch_size,lr,epochs,final_train_loss,final_val_loss,final_train_mae,final_val_mae,run_dir
+cnn_small,cnn,small,42,30,32,0.001,3,0.0587733946740627,0.0803762748837471,0.116060547530651,0.100338339805603,experiments_ts_models\2025-12-04_04-20-30_cnn_small_lr=0.001
+cnn_medium,cnn,medium,42,30,32,0.001,3,0.0584269799292087,0.077392354607582,0.1158882975578308,0.1270801723003387,experiments_ts_models\2025-12-04_04-20-48_cnn_medium_lr=0.001
+cnn_large,cnn,large,42,30,32,0.001,3,0.058368224650621414,0.07700000703334808,0.11558230221271515,0.12779894471168518,experiments_ts_models\2025-12-04_04-22-25_cnn_large_lr=0.001
