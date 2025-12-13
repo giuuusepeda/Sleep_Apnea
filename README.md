@@ -7,18 +7,18 @@ https://github.com/giuuusepeda/Sleep_Apnea
 
 ## Description
 
-[Short project description here. Briefly summarize the problem you are trying to solve and the approach you're taking.]
+Sleep apnea is a common sleep disorder characterized by repeated breathing interruptions during sleep, traditionally diagnosed using polysomnography and manual expert analysis. In this project, we address the automatic detection of sleep apnea events using raw physiological signals provided in the Challenge Data ENS dataset. We implement and evaluate machine learning and deep learning models using TensorFlow/Keras, with a focus on handling class imbalance, ensuring patient-level generalization, and evaluating performance using the F1-score. This project was developed as part of a Machine Learning with TensorFlow course.
 
 ### Task Type
 
-[Image Classification / Chatbot / Regression / Clustering / Other]
+Time-series event detection (binary classification)
 
 ### Results Summary
 
 #### Best Model Performance
 - **Best Model:** [Name and type of the best-performing model"]
-- **Evaluation Metric:** [Primary metric used, e.g., Accuracy, F1-Score, MSE, MAE]
-- **Final Performance:** [Best score achieved, e.g., 95% accuracy, F1-score of 0.87, MSE of 0.12]
+- **Evaluation Metric:** F1-Score
+- **Final Performance:** F1-score of xxx
 
 #### Model Comparison
 - **Baseline Performance:** [Baseline model performance for comparison]
