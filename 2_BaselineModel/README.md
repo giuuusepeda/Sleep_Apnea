@@ -1,6 +1,7 @@
 # Baseline Model
 
-**[Notebook](baseline_model.ipynb)**
+**[Notebook](1st_submition_epicfail
+/baseline_model_otimizado_by_night.ipynb)**
 
 ## Baseline Model Results
 
@@ -15,7 +16,7 @@
 
 ### Model Training
 
-![Training and validation loss](training_curve.png)
+![Training and validation loss](train_3lcnn_by_night.png)
 
 The figure above shows the evolution of training and validation loss throughout the optimization process.
 A gradual decrease in validation loss indicates stable convergence without signs of severe overfitting.
