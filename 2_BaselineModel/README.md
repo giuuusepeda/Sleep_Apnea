@@ -1,24 +1,112 @@
 # Baseline Model
 
-**[Notebook](baseline_model.ipynb)**
+**[Notebook](1st_submition_epicfail/baseline_model_otimizado_by_night.ipynb)**
 
 ## Baseline Model Results
 
 ### Model Selection
-- **Baseline Model Type:** [e.g., Random Forest, Logistic Regression, Linear Regression, Naive Bayes, etc.]
-- **Rationale:** [Brief explanation of why this model was chosen as baseline]
+- **Baseline Model Type:** 3-layer 1D Convolutional Neural Network (CNN)
+- **Rationale:**  
+  This architecture corresponds to the reference baseline provided by the Dreem Sleep Apnea Detection Challenge.  
+  It processes raw polysomnography (PSG) signals sampled at 100 Hz without handcrafted features and downsamples the temporal resolution to 1 Hz, directly matching the annotation frequency.  
+  The model serves as a strong and standardized baseline before introducing more complex temporal modeling (e.g., recurrent layers or attention mechanisms).
+
+---
+
+### Model Training
+
+![Training and validation loss](train_3lcnn_by_night.png)
+
+The figure above shows the evolution of training and validation loss throughout the optimization process.
+A gradual decrease in validation loss indicates stable convergence without signs of severe overfitting.
+The slow but consistent improvement at lower learning rates highlights the importance of extended training for this task.
+
+---
 
 ### Model Performance
-- **Evaluation Metric:** [e.g., Accuracy, F1-Score, Precision, Recall, MSE, MAE, R², etc.]
-- **Performance Score:** [e.g., 85% accuracy, F1-score of 0.78, MSE of 0.15]
-- **Cross-Validation Score:** [Mean and standard deviation of CV scores, e.g., 0.82 ± 0.03]
+
+The model was evaluated using both **window-level** and **event-level** metrics.  
+The official challenge ranking is based on an **event-level F1-score with IoU-based matching**, which is reported below.
+
+| Metric | Dataset | Score |
+|------|--------|-------|
+| Event-based F1 (IoU ≥ 0.3) | Validation | **0.247** |
+| Event-based F1 (IoU ≥ 0.3) | Test (official) | **0.074** |
+| Percentage of positive seconds (post-processed) | Validation | **7.77%** |
+| Percentage of positive seconds (post-processed) | Test | **≈ 8.8%** |
+
+**Post-processing parameters (best validation configuration):**
+- Threshold (`t`): 0.57  
+- Minimum event duration (`min_len`): 12 seconds  
+- Gap filling (`gap_fill`): 3 seconds
+
+**Post-processing parameters (best train configuration):**
+- Threshold (`t`): 0.535 
+- Minimum event duration (`min_len`): 6 seconds  
+- Gap filling (`gap_fill`): 3 seconds
+- Percentage of positive seconds: 8.770454545454545
+- Event-based F1 (official): 0.0739404869251578
+
+**Post-processing parameters (other tested train configuration):**
+- Threshold (`t`): 0.52
+- Minimum event duration (`min_len`): 12 seconds  
+- Gap filling (`gap_fill`): 3 seconds
+- Percentage of positive seconds: 8.822979797979798
+- Event-based F1 (official): 0.07270964614638875
+
+---
 
 ### Evaluation Methodology
-- **Data Split:** [Train/Validation/Test split ratios, e.g., 70/15/15]
-- **Evaluation Metrics:** [List all metrics used and justify why they are appropriate for this problem]
+
+- **Data Split:**  
+  - Subject-wise split to avoid data leakage  
+  - 22 subjects for training  
+  - 7 subjects for validation  
+  - 22 held-out subjects for test (challenge submission)
+
+- **Evaluation Metrics:**
+  - **Event-based F1-score with IoU matching (≥ 0.3)** — official challenge metric  
+  - **Percentage of positive seconds** after post-processing — used for calibration and sanity checks  
+
+- **Event Definition:**  
+  Binary segmentation masks at 1 Hz were converted into temporal events.  
+  Predicted and reference events were matched using Intersection-over-Union (IoU), and precision/recall were computed at the event level.
+
+---
 
 ### Metric Practical Relevance
-[Explain the practical relevance and business impact of each chosen evaluation metric. How do these metrics translate to real-world performance and decision-making? What do the metric values mean in the context of your specific problem domain?]
+
+- **Event-based F1-score:**  
+  This metric evaluates whether apnea events are detected as coherent temporal episodes rather than isolated time points.  
+  It strongly penalizes fragmented detections and false positive events, making it clinically more relevant than per-second accuracy.
+
+- **Percentage of Positive Seconds:**  
+  Used as a diagnostic metric to ensure that model predictions are physiologically plausible and aligned with the prevalence observed in training data.  
+  Large deviations often indicate overly conservative or overly aggressive thresholds.
+
+In practice, a high event-based F1-score indicates that the model detects apnea events with correct timing and duration, which is critical for downstream clinical interpretation and severity estimation.
+
+---
 
 ## Next Steps
-This baseline model serves as a reference point for evaluating more sophisticated models in the [Model Definition and Evaluation](../3_Model/README.md) phase.
+
+While the baseline CNN provides a reasonable starting point, performance remains highly sensitive
+to thresholding and post-processing choices due to the limited dataset size and strong inter-subject variability.
+
+A key limitation is the uneven distribution of apnea events across individuals, with some nights
+containing very few events and others being heavily affected. This variability makes single
+train/validation splits unstable and prone to overfitting specific subjects.
+
+To address this, future iterations will explore **subject-wise K-fold (Z-fold) cross-validation**,
+where different subsets of nights are alternately used for validation while preserving subject independence.
+This strategy enables:
+- More robust hyperparameter tuning (thresholds, post-processing, and model capacity)
+- Reduced variance in validation performance estimates
+- Better generalization across subjects with different apnea burdens
+
+Additional planned improvements include:
+- Freezing the CNN feature extractor and training recurrent layers (GRU/LSTM) on top of full-night sequences
+- Explicit modeling of long-range temporal dependencies across windows
+- Further refinement of event-level post-processing to balance sensitivity and specificity across subjects
+
+This baseline serves as a reference point for evaluating more advanced architectures in the **Model Definition and Evaluation** phase.
