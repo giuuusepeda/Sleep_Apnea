@@ -96,6 +96,49 @@ Several challenges emerged during model development and evaluation:
 
 ---
 
+## GRU Model Results
+
+A **Gated Recurrent Unit (GRU)** model was trained and evaluated on the sleep apnea detection task.
+The small GRU variant was selected for further development based on its strong performance.
+
+### GRU-Small Architecture
+- **Model Family:** GRU (Gated Recurrent Units)
+- **Bidirectional GRU layers** with dropout regularization (128 → 64 → 32 units)
+- **Temporal pooling** to reduce from 9000 to 90 timesteps
+- **Dense output layer** with sigmoid activation for per-second apnea prediction
+- **Input shape:** (9000 samples, 8 channels)
+- **Channels:** AbdoBelt, AirFlow, PPG, ThorBelt, Snoring, SPO2, C4A1, O2A1
+
+### Training Configuration
+- **Learning rate:** 0.001 (Adam optimizer)
+- **Batch size:** 16
+- **Epochs trained:** 4
+- **Loss function:** Binary crossentropy
+- **Data split:** 50 windows per subject, subject-wise validation split
+
+### Point-wise Performance Metrics
+| Metric | Training | Validation |
+|--------|----------|-----------|
+| **Loss** | 0.2941 | 0.2307 |
+| **Accuracy** | 91.61% | 94.72% |
+
+### Key Observations
+- The model achieves high per-second accuracy on both training and validation sets
+- Validation accuracy (94.72%) exceeds training accuracy (91.61%), suggesting good generalization
+- Low validation loss (0.2307) indicates stable convergence
+- **Note:** Point-wise metrics do not reflect event-based performance; official evaluation requires IoU-based event extraction with threshold ≥ 0.3
+
+### Model Artifacts
+The trained GRU-small model is saved with the following files:
+- `gru_small_final.keras` — Final trained model weights
+- `gru_small_best.keras` — Best checkpoint during training
+- `gru_small_config.json` — Model configuration and hyperparameters
+- `gru_small_metrics.json` — Point-wise training and validation metrics
+- `gru_small_history.json` — Full training history
+- `gru_small_predictions.npz` — Model predictions on validation set
+
+---
+
 ## Outlook
 
 To mitigate these challenges, future work will focus on subject-wise cross-validation,

@@ -1,0 +1,14 @@
+{
+    "point_wise_metrics": {
+        "training": {
+            "loss": 0.2940930724143982,
+            "accuracy": 0.9160594344139099
+        },
+        "validation": {
+            "loss": 0.23073813319206238,
+            "accuracy": 0.9472380876541138
+        },
+        "f1_score": 0.0
+    },
+    "note": "Point-wise metrics computed on per-second labels. For official event-based F1, use event extraction with IoU >= 0.3"
+}
