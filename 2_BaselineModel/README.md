@@ -1,7 +1,6 @@
 # Baseline Model
 
-**[Notebook](1st_submition_epicfail
-/baseline_model_otimizado_by_night.ipynb)**
+**[Notebook](1st_submition_epicfail/baseline_model_otimizado_by_night.ipynb)**
 
 ## Baseline Model Results
 
@@ -34,12 +33,26 @@ The official challenge ranking is based on an **event-level F1-score with IoU-ba
 | Event-based F1 (IoU ≥ 0.3) | Validation | **0.247** |
 | Event-based F1 (IoU ≥ 0.3) | Test (official) | **0.074** |
 | Percentage of positive seconds (post-processed) | Validation | **7.77%** |
-| Percentage of positive seconds (post-processed) | Test | **≈ 8–9%** |
+| Percentage of positive seconds (post-processed) | Test | **≈ 8.8%** |
 
 **Post-processing parameters (best validation configuration):**
 - Threshold (`t`): 0.57  
 - Minimum event duration (`min_len`): 12 seconds  
-- Gap filling (`gap_fill`): 3 seconds  
+- Gap filling (`gap_fill`): 3 seconds
+
+**Post-processing parameters (best train configuration):**
+- Threshold (`t`): 0.535 
+- Minimum event duration (`min_len`): 6 seconds  
+- Gap filling (`gap_fill`): 3 seconds
+- Percentage of positive seconds: 8.770454545454545
+- Event-based F1 (official): 0.0739404869251578
+
+**Post-processing parameters (other tested train configuration):**
+- Threshold (`t`): 0.52
+- Minimum event duration (`min_len`): 12 seconds  
+- Gap filling (`gap_fill`): 3 seconds
+- Percentage of positive seconds: 8.822979797979798
+- Event-based F1 (official): 0.07270964614638875
 
 ---
 
@@ -77,10 +90,23 @@ In practice, a high event-based F1-score indicates that the model detects apnea 
 
 ## Next Steps
 
-While the baseline CNN is capable of detecting coarse apnea patterns, its performance is limited by the lack of explicit long-range temporal modeling.  
-The next phase focuses on improving event coherence and boundary localization by introducing:
-- Temporal aggregation across full nights
-- Recurrent layers (GRU/LSTM) on top of frozen CNN features
-- Improved loss functions and smoothing strategies aligned with event-level evaluation
+While the baseline CNN provides a reasonable starting point, performance remains highly sensitive
+to thresholding and post-processing choices due to the limited dataset size and strong inter-subject variability.
+
+A key limitation is the uneven distribution of apnea events across individuals, with some nights
+containing very few events and others being heavily affected. This variability makes single
+train/validation splits unstable and prone to overfitting specific subjects.
+
+To address this, future iterations will explore **subject-wise K-fold (Z-fold) cross-validation**,
+where different subsets of nights are alternately used for validation while preserving subject independence.
+This strategy enables:
+- More robust hyperparameter tuning (thresholds, post-processing, and model capacity)
+- Reduced variance in validation performance estimates
+- Better generalization across subjects with different apnea burdens
+
+Additional planned improvements include:
+- Freezing the CNN feature extractor and training recurrent layers (GRU/LSTM) on top of full-night sequences
+- Explicit modeling of long-range temporal dependencies across windows
+- Further refinement of event-level post-processing to balance sensitivity and specificity across subjects
 
 This baseline serves as a reference point for evaluating more advanced architectures in the **Model Definition and Evaluation** phase.
