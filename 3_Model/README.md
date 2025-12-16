@@ -65,34 +65,25 @@ Given the high variance across individuals, emphasis was placed on **robustness 
 
 ## Observations and Challenges
 
-Early experiments confirmed several key challenges:
-- Validation performance is highly sensitive to subject composition
-- Threshold and post-processing parameters can significantly shift event-level F1
-- Models may overfit nights with high apnea density at the expense of low-event subjects
-
-These findings motivated conservative model selection and reinforced the need for
-cross-validation strategies in subsequent iterations.
-
----
-
-## Challenges and Observations
-
-Several challenges emerged during model development and evaluation:
+Several key observations and challenges emerged throughout model development and evaluation:
 
 - **High inter-subject variability:**  
-  Apnea event frequency varies drastically across nights, ranging from very sparse to highly dense event distributions.
+  Apnea event frequency varies drastically across nights, ranging from very sparse to highly dense event distributions. This variability makes it difficult for a single model configuration to perform consistently across all subjects.
 
 - **Sensitivity to validation splits:**  
-  Event-level performance is strongly influenced by which subjects are included in the validation set, making single splits unstable.
+  Event-level performance is highly dependent on which subjects are included in the validation set. Single subject-wise splits often lead to unstable estimates of generalization performance.
 
 - **Model capacity trade-offs:**  
-  Increasing the number of layers and parameters does not consistently improve event-based F1-score and may lead to overfitting subjects with high apnea burden.
+  Increasing the number of layers or parameters does not consistently improve the event-based F1-score. In several cases, larger models tended to overfit nights with high apnea density while underperforming on low-event subjects.
 
-- **Post-processing dependency:**  
-  Thresholding and event consolidation parameters (minimum duration and gap filling) have a significant impact on the final score, sometimes outweighing architectural differences.
+- **Strong dependency on post-processing:**  
+  Threshold selection and event consolidation parameters (minimum event duration and gap filling) can substantially shift the final event-level F1-score, sometimes outweighing architectural differences between models.
 
 - **Metric strictness:**  
-  The IoU-based event-level F1 metric penalizes temporal fragmentation and boundary misalignment, requiring models to produce temporally coherent predictions rather than isolated positive samples.
+  The IoU-based event-level F1 metric penalizes temporal fragmentation and boundary misalignment, requiring models to produce temporally coherent event predictions rather than isolated positive samples.
+
+These observations motivated conservative model selection and highlighted the need for more robust evaluation strategies, such as subject-wise cross-validation, in subsequent iterations.
+
 
 ---
 
