@@ -1,0 +1,21 @@
+{
+  "model_name": "lstm_small",
+  "architecture": "3-layer Bidirectional LSTM",
+  "input_shape": [
+    9000,
+    8
+  ],
+  "output_shape": [
+    90
+  ],
+  "total_parameters": 345921,
+  "batch_size": 16,
+  "epochs_trained": 5,
+  "best_val_loss": 0.28602564334869385,
+  "best_val_accuracy": 0.011428571306169033,
+  "learning_rate_initial": 0.001,
+  "optimizer": "Adam",
+  "loss": "binary_crossentropy",
+  "training_time": "~25 minutes",
+  "gpu": "T4"
+}
