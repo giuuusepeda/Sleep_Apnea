@@ -1,0 +1,8 @@
+{
+  "fs": 100,
+  "window_sec_original": 90,
+  "n_windows_per_night": 200,
+  "normalization": "per-night z-score per channel",
+  "chunk_sec_default": 300,
+  "stride_sec_default": 60
+}
