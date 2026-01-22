@@ -1,0 +1,21 @@
+{
+    "model_family": "GRU",
+    "model_size": "small",
+    "learning_rate": 0.001,
+    "epochs_trained": 4,
+    "batch_size": 16,
+    "input_shape": [
+        9000,
+        8
+    ],
+    "channels": [
+        "AbdoBelt",
+        "AirFlow",
+        "PPG",
+        "ThorBelt",
+        "Snoring",
+        "SPO2",
+        "C4A1",
+        "O2A1"
+    ]
+}
