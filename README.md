@@ -132,4 +132,4 @@ The results emphasize the importance of **physiologically grounded feature engin
 
 ## Cover Image
 
-![Project Cover Image](CoverImage/cover_image.png)
+![Project Cover Image](CoverImage/Captura_de_tela_2026-02-01_182917.png)
