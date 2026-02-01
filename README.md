@@ -9,75 +9,117 @@ https://github.com/giuuusepeda/Sleep_Apnea
 
 Sleep apnea is a common sleep disorder characterized by repeated breathing interruptions during sleep, traditionally diagnosed using polysomnography and manual expert analysis. In this project, we address the automatic detection of sleep apnea events using raw physiological signals provided in the Challenge Data ENS dataset. We implement and evaluate machine learning and deep learning models using TensorFlow/Keras, with a focus on handling class imbalance, ensuring patient-level generalization, and evaluating performance using the F1-score. This project was developed as part of a Machine Learning with TensorFlow course.
 
+---
+
 ### Task Type
 
 Time-series event detection (binary classification)
 
-### Results Summary
+## Results Summary
 
-#### Best Model Performance
+---
 
-- **Best Model:** 3-layer CNN with night-level normalization and overlapping temporal aggregation  
-- **Evaluation Metric:** Event-based F1-score (IoU ≥ 0.3)  
-- **Final Performance:**  
-  - **Validation Event-F1:** 0.247 (post-processed)  
-  - **Test Event-F1 (official):** 0.0739  
+### Best Model Performance
 
-- **Post-processing configuration:**  
-  - Threshold (`t`): 0.535  
-  - Minimum event duration (`min_len`): 6 seconds  
-  - Gap filling (`gap_fill`): 3 seconds  
+- **Best Model:** **LightGBM with Feature Engineering and 300-second windows**
+- **Evaluation Metric:** Event-based F1-score (IoU ≥ 0.3)
 
-These results highlight the importance of preprocessing and temporal aggregation over architectural complexity,
-with significant performance gains achieved primarily through night-level normalization and structured post-processing.
+**Final Performance:**
+- **Validation Event-F1:** **0.0851** (after post-processing)
+- **Test Event-F1 (official):** **0.0854**
 
+**Post-processing configuration:**
+- Threshold (`t`): **0.11**
+- Minimum event duration (`min_len`): **1 second**
+- Gap filling (`gap_fill`): **3 seconds**
 
-#### Model Comparison
+These results indicate that **data representation, preprocessing strategy, and temporal aggregation** had a greater impact on performance than architectural complexity. The strongest gains were achieved through **night-level normalization**, **longer temporal windows**, and **structured post-processing**, rather than through end-to-end deep learning models.
 
-**Baseline Performance:** 
-- 3-layer CNN: Event-F1 of 0.0739 (official test set)
-- Validation Event-F1: 0.247 (post-processed)
+---
 
-**Alternative Models Explored:**
+### Model Comparison
 
-| Model Family | Architecture | Parameters | Best Val Loss | Training Time | Status |
-|--------------|-------------|------------|---------------|---------------|--------|
-| **CNN** | 3-layer Conv1D | ~200K | - | ~1 hour | ✓ Best model |
-| **GRU** | 3-layer Bi-GRU | ~300K | 0.2307 | ~30 min | ✓ Completed |
-| **LSTM** | 3-layer Bi-LSTM | 345,921 | 0.2860 | ~25 min | ✓ Completed |
+**Baseline Performance:**
+- **3-layer CNN**
+  - **Validation Event-F1:** 0.2513 (post-processed)
+  - **Test Event-F1 (official):** 0.0406
+
+**Best Performing Model:**
+- **LightGBM + Feature Engineering + 300s windows**
+  - **Validation Event-F1:** 0.0851
+  - **Test Event-F1 (official):** 0.0854
 
 **Key Findings:**
-- The **3-layer CNN with night-level normalization** achieved the best performance
-- Recurrent models (GRU/LSTM) were explored but did not outperform the CNN baseline
-- Model performance is highly dependent on preprocessing strategy (night-level vs window-level normalization)
-- Event-based F1 score is strongly influenced by post-processing parameters (threshold, min_len, gap_fill)
+- The **LightGBM model with engineered physiological features and long temporal windows** achieved the best generalization on the official test set.
+- Model performance is **highly sensitive to preprocessing choices**, particularly the use of **night-level normalization** instead of window-level normalization.
+- **Event-based F1-score** is strongly influenced by post-processing parameters such as detection threshold, minimum event duration, and gap-filling strategy.
 
-#### Key Insights
+---
 
-- **Most Important Features:** Respiratory signals (AbdoBelt, ThorBelt, AirFlow) and oxygen saturation (SPO2) are critical for apnea detection, as they directly reflect breathing patterns and oxygen desaturation events characteristic of sleep apnea.
+### Feature Importance Analysis
 
-- **Preprocessing Impact:** Night-level normalization proved essential for performance. Window-level normalization disrupted temporal continuity and resulted in near-zero F1 scores, demonstrating the importance of preserving physiological context across time.
+The feature importance analysis of the best-performing LightGBM model shows a strong alignment with known sleep apnea physiology.
 
-- **Model Strengths:** 
-  - The CNN architecture effectively captures local temporal patterns in physiological signals
-  - Recurrent models (GRU/LSTM) successfully model long-range dependencies but did not outperform CNNs on this task
-  - All models benefited from subject-wise validation splits to ensure generalization
+The most relevant features were related to **airflow**, **oxygen saturation (SpO₂)**, and **thoracoabdominal coordination**, including:
 
-- **Model Limitations:** 
-  - High sensitivity to post-processing parameters (threshold, minimum event duration, gap filling)
-  - Limited training data (44 nights, 22 subjects) constrains generalization
-  - Severe class imbalance (only ~7% positive samples) makes the task challenging
-  - Point-wise accuracy is misleading due to class imbalance; event-based metrics are essential
+- Airflow baseline and percentage drop  
+  (`airflow_baseline_local`, `airflow_drop_pct_c30`)
+- Minimum and range of oxygen saturation  
+  (`spo_min_c30`, `spo_range_c30`)
+- Cross-features combining airflow reduction and oxygen desaturation  
+  (`airflow_drop_x_spo_range`, `airflow_lowdur_x_spo_rng`)
+- Thoracic–abdominal correlation  
+  (`thor_abd_corr_c30`)
 
-- **Architecture Comparison:**
-  - **CNNs:** Best performance, faster training, fewer parameters
-  - **RNNs (GRU/LSTM):** Slower training, more parameters, theoretically better for long sequences but did not translate to better event-F1 in practice
-  - The receptive field of the CNN appears sufficient for capturing apnea events within 90-second windows
+These features capture the defining characteristics of apnea events: **reduced airflow**, **oxygen desaturation**, and **imbalance in respiratory effort**.  
+The prominence of interaction features indicates that the model learns **physiologically meaningful relationships across multiple signals**, rather than relying on isolated point-wise patterns.
 
-- **Business Impact:** 
+---
+
+### Key Insights
+
+- **Physiological relevance matters:**  
+  Features derived from respiratory belts, airflow, and SpO₂ consistently dominated the model, reflecting the underlying pathophysiology of sleep apnea.
+
+- **Preprocessing is critical:**  
+  **Night-level normalization proved essential**. Normalizing each window independently disrupted physiological continuity and resulted in near-zero Event-F1 scores, highlighting the importance of preserving long-term context.
+
+- **Temporal aggregation outperforms short windows:**  
+  Aggregating features over **300-second windows** provided sufficient temporal context to capture complete apnea events and recovery phases.
+
+- **Event-based evaluation is mandatory:**  
+  Due to severe class imbalance (~7% positive samples), point-wise accuracy and standard classification metrics were misleading. **Event-based F1-score** provided a more clinically meaningful evaluation.
+
+---
+
+### Model Strengths and Limitations
+
+**Strengths:**
+- Robust performance under limited data conditions (44 nights, 22 subjects)
+- Strong interpretability via feature importance analysis
+- Effective use of domain-informed feature engineering
+- Good generalization to unseen subjects with subject-wise splits
+
+**Limitations:**
+- High sensitivity to post-processing hyperparameters
+- Limited dataset size restricts broader generalization
+- Severe class imbalance increases detection difficulty
+- Performance ceiling likely constrained by annotation noise and event ambiguity
+
+---
+
+### Business Impact
+
   - Automated sleep apnea detection can reduce the need for manual polysomnography scoring
   - Even modest F1 scores can assist clinicians by flagging potential apnea events for review
   - Further improvements require larger datasets and cross-site validation to ensure clinical deployment readiness
+
+---
+
+### Conclusion
+
+This work demonstrates that **feature-based models combined with domain knowledge and appropriate temporal aggregation can outperform more complex neural architectures** in low-data, event-based sleep apnea detection tasks.  
+The results emphasize the importance of **physiologically grounded feature engineering**, **night-level preprocessing**, and **carefully designed post-processing pipelines** when addressing clinically relevant time-series detection problems.
 
 
 ## Documentation
